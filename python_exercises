@@ -1,0 +1,139 @@
+#%%
+#----------------------TASK2-1-----------------------------------------
+dic1 = {1:10, 2:20}
+dic2 = {3:30, 4:40}
+dic3 = {5:50, 6:60}
+#1
+dic4 = {}
+for i in (dic1,dic2,dic3):
+    dic4.update(i)
+print(dic4)
+#2
+dic5 = {**dic1,**dic2,**dic3}
+print(dic5)
+#3
+dic6 = dic1|dic2|dic3
+print(dic6)  
+#----------------------TASK2-2-----------------------------------------
+#%%
+# This company is not poor at all.
+#1
+s = input().split()
+s[-1] = s[-1].rstrip(".")
+if "not" and "at" and "all" in s:
+    a = s.index("not")
+    b = s.index("at")
+    if s[b+1] == "all":
+        s[a:b+2] = ["good"]
+s = " ".join(s) + "."
+print(s)    
+#2
+s = input()  
+# 找到字串 s 中的 'not' 子字串在 s 中的位置
+c1 = s.find('not')
+# 找到字串 s 中的 'at all' 子字串在 s 中的位置，再加上 6 個字元的位置，得到子字串結束的位置
+c2 = s.find('at all') + 6
+# 利用字串的切片（slicing）功能，取出 'not' 子字串前的字串、'at all' 子字串後的字串，並插入 'good'，組成新的字串
+d = s[0:c1] + 'good' + s[c2:len(s)]
+print(d)
+#3
+s = input()  
+# 將字串 s 以 "not" 分割，取得分割後的第一個子字串，也就是 "not" 之前的部分
+s1 = s.split('not')[0]
+# 將字串 s 以 "at all" 分割，取得分割後的第二個子字串，也就是 "at all" 之後的部分
+s2 = s.split('at all')[1]
+# 將 s1、"good" 和 s2 結合成新的字串 d
+d = f'{s1}good{s2}'
+print(d)
+
+#4
+import re
+s = input()  
+# 使用 re.sub 函式來進行正規表達式取代
+d = re.sub(r"not\s+.*?\s+at\s+all", "good", s)  
+print(d) 
+
+#----------------------TASK3-1-----------------------------------------
+#%%
+a, b = int(input()), int(input())
+d = ()
+if a>0 and b>0:
+    nums = []
+    for i in range(a, b+1):
+        if all(int(j) and i % int(j) == 0 for j in str(i)):
+            nums.append(i)
+    prev = None
+    for curr in nums:
+        if prev is not None and (d == () or curr - prev > d[1] - d[0]):
+            d = (prev, curr)
+        prev = curr
+print(d)
+
+# %%
+#----------------------TASK3-2-----------------------------------------
+nums = [3,2,4]
+target = 6
+for i in range(len(nums)):
+    for j in range(i+1,len(nums)):
+        if nums[i]+nums[j] == target:
+            print(i, j)
+            
+# %%
+#----------------------TASK4-1-----------------------------------------
+s = 'Here are UPPERCASE and lowercase chars.'
+chars = set([c for c in s])
+d = {}
+for i in chars:
+    position = []
+    for j in range(len(s)): 
+        if s[j] == i:
+            position.append(j+1)
+    d[i] = position
+print(d)
+
+# %%
+#----------------------TASK4-2-----------------------------------------
+L = [1,2,3,4,5,6]
+def add1(n):
+    for i in range(len(n)):
+        n[i] = n[i] + 1
+    return n
+
+
+def isPrime(n):
+    x = []
+    for i in n:
+        if i > 1:
+            for j in range(2,i):
+                if i%j == 0:
+                    x.append(False)
+            else:
+                x.append(True)
+    return x
+        
+def f(L,F):
+    return F(L)
+
+print(f(L, add1))            
+print(f(L, isPrime))
+
+
+
+
+# %%
+#----------------------TASK5-1-----------------------------------------
+
+s = input() 
+
+d = []
+def permute(s, i, length):
+    if i == length:
+        d.append("".join(s))
+    else:
+        for j in range(i, length):
+            s[i], s[j] = s[j], s[i]
+            permute(s, i+1, length)
+            s[j], s[i] = s[i], s[j]
+
+permute(list(s), 0, len(s))
+print(d)
